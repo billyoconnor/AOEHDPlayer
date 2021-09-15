@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 import string, random, json, sys, argparse, time, os
+from civAssignHandler import civAssignHandler
 
-def main(event, context):
-    handler = civAssignHandler()
+def main(numOfPlayers, numOfCivs):
+    handler = civAssignHandler(numOfPlayers, numOfCivs)
     handler.execute()
 
 
-## executing locally we are not passing in any events
 if __name__ == '__main__':
-    mainResult = main(None, None)
-    print(json.dumps(mainResult,indent=2))
+    mainResult = main(5, 18)
+    print(mainResult)
