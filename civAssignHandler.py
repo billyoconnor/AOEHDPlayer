@@ -74,8 +74,14 @@ class civAssignHandler():
     def execute(self):
         self.log("Starting Execute ")
         print(self.datePrefix)
+        print(self.hostName())
         print(self.listCreate())
         self.log("Execute Complete")
+
+    def hostName(self):
+        #Asks name of the person running the request
+        hName = input("Enter Host Name ")
+        return hName
 
     def civNumber(self):
         #generates and returns a random number with range
@@ -85,6 +91,8 @@ class civAssignHandler():
 
     def log(self, message = None):
         print(f"""[{self.datePrefix}::{message}""")
+
+
 
 
 
