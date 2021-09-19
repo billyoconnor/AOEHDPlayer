@@ -4,9 +4,9 @@ from datetime import datetime, timezone, timedelta
 
 class civAssignHandler():
 
-    def __init__(self, numOfPlayers, numOfCivs):
-        self.numOfPlayers = numOfPlayers
+    def __init__(self, numOfCivs):
         self.numOfCivs = numOfCivs
+        self.numOfPlayers = 0
 
     def listCreate(self):
         x = range(1, (self.numOfPlayers + 1))
@@ -75,6 +75,7 @@ class civAssignHandler():
         self.log("Starting Execute ")
         print(self.datePrefix)
         print(self.hostName())
+        print(self.noOfPlayers())
         print(self.listCreate())
         self.log("Execute Complete")
 
@@ -92,7 +93,11 @@ class civAssignHandler():
     def log(self, message = None):
         print(f"""[{self.datePrefix}::{message}""")
 
-
+    def noOfPlayers(self):
+        nOP = input("Enter Number of players: ")
+        nOP = int(nOP)
+        self.numOfPlayers = nOP
+        return nOP
 
 
 
