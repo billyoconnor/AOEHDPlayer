@@ -7,13 +7,29 @@ class civAssignHandler():
     def __init__(self, numOfCivs):
         self.numOfCivs = numOfCivs
         self.numOfPlayers = 0
+        self.nameofHost = ""
+        self.otherPlayerNames = []
 
     def listCreate(self):
         x = range(1, (self.numOfPlayers + 1))
         thisdict = {}
         for i in x:
-            thisdict[f'{i}'] = f'{self.civNumber()}'
-        return thisdict
+            thisdict[f'{i}'] = [f'{self.civNumber()}']
+        thisdict['1'].append(f"{self.nameofHost}")
+        y = range(1, (self.numOfPlayers+1))
+        for i in y:
+            print(self.otherPlayerNames)
+            print("check1")
+            print(self.otherPlayerNames[1])
+            print("check2")
+            print(i)
+            type(i)
+            print(self.otherPlayerNames[i])
+            print("check3")
+            thisdict[f'{i}'].append(self.otherPlayerNames[i])
+            print("check4")
+        print("ListCreate Complete")
+        print(thisdict)
 
     @property
     def tableSetsDF(self):
@@ -76,13 +92,15 @@ class civAssignHandler():
         print(self.datePrefix)
         print(self.hostName())
         print(self.noOfPlayers())
+        self.playernames()
         print(self.listCreate())
         self.log("Execute Complete")
 
     def hostName(self):
         #Asks name of the person running the request
         hName = input("Enter Host Name ")
-        return hName
+        self.nameofHost = hName
+        return self.nameofHost
 
     def civNumber(self):
         #generates and returns a random number with range
@@ -99,6 +117,14 @@ class civAssignHandler():
         self.numOfPlayers = nOP
         return nOP
 
-
-
+    def playernames(self):
+        playerNameCheck = input("Would you like to provide player names? Y/N ")
+        if playerNameCheck == "Y":
+            x = range(2, (self.numOfPlayers + 1))
+            for i in x:
+                playerName = input(f"Enter name of player {i}: ")
+                self.otherPlayerNames.append(playerName)
+            return
+        else:
+            return
 
