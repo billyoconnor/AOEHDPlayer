@@ -4,8 +4,8 @@ from datetime import datetime, timezone, timedelta
 
 class civAssignHandler():
 
-    def __init__(self, numOfCivs):
-        self.numOfCivs = numOfCivs
+    def __init__(self):
+        self.numOfCivs = 0
         self.numOfPlayers = 0
         self.nameofHost = ""
         self.otherPlayerNames = []
@@ -16,18 +16,9 @@ class civAssignHandler():
         for i in x:
             thisdict[f'{i}'] = [f'{self.civNumber()}']
         thisdict['1'].append(f"{self.nameofHost}")
-        y = range(1, (self.numOfPlayers+1))
+        y = range(0, (self.numOfPlayers-1))
         for i in y:
-            print(self.otherPlayerNames)
-            print("check1")
-            print(self.otherPlayerNames[1])
-            print("check2")
-            print(i)
-            type(i)
-            print(self.otherPlayerNames[i])
-            print("check3")
-            thisdict[f'{i}'].append(self.otherPlayerNames[i])
-            print("check4")
+            thisdict[f'{i+2}'].append(self.otherPlayerNames[i])
         print("ListCreate Complete")
         print(thisdict)
 
@@ -91,6 +82,7 @@ class civAssignHandler():
         self.log("Starting Execute ")
         print(self.datePrefix)
         print(self.hostName())
+        self.expansionCheck()
         print(self.noOfPlayers())
         self.playernames()
         print(self.listCreate())
@@ -104,7 +96,7 @@ class civAssignHandler():
 
     def civNumber(self):
         #generates and returns a random number with range
-        randNumb = random.randint(1,18)
+        randNumb = random.randint(1,self.numOfCivs)
         civName = self.civList[f'{randNumb}']
         return civName
 
@@ -128,3 +120,15 @@ class civAssignHandler():
         else:
             return
 
+    def expansionCheck(self):
+        expansionsBoolean = input("Would you like to add expansions to the civ list? Y/N ")
+        if expansionsBoolean != 'Y':
+            self.numOfCivs = 18
+            return
+        forgottenCheck = input("Would you like to include the expansions for The Forgotten Y/N")
+        if forgottenCheck == 'Y':
+            self.numOfCivs = 23
+        # africanKingdomsCheck = input("Would you like to include the expansions for African Kingdoms? Y/N")
+        # rajasCheck = input("Would you like to include the expansions for Rise of the Rajas? Y/N")
+        # forgottenCheck = input("Would you like to include the expansions for Lords of the West? Y/N")
+        # forgottenCheck = input("Would you like to include the expansions for Dawn of the Dukes? Y/N")

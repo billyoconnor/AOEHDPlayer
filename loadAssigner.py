@@ -2,11 +2,11 @@
 import string, random, json, sys, argparse, time, os
 from civAssignHandler import civAssignHandler
 
-def main(numOfCivs):
-    handler = civAssignHandler(numOfCivs)
+def main():
+    handler = civAssignHandler()
     handler.execute()
 
 
 if __name__ == '__main__':
-    mainResult = main(18)
+    mainResult = main()
     print(mainResult)
