@@ -5,10 +5,11 @@ from datetime import datetime, timezone, timedelta
 class civAssignHandler():
 
     def __init__(self):
-        self.numOfCivs = 0
+        self.numOfCivs = 18
         self.numOfPlayers = 0
         self.nameofHost = ""
         self.otherPlayerNames = []
+        self.expansionList = list(range(1,19))
 
     def listCreate(self):
         x = range(1, (self.numOfPlayers + 1))
@@ -36,7 +37,7 @@ class civAssignHandler():
                    '6': 'Chinese',
                    '7': 'Byzantines',
                    '8': 'Persians',
-                   '9': 'Sarcens',
+                   '9': 'Saracens',
                    '10': 'Turks',
                    '11': 'Vikings',
                    '12': 'Mongols',
@@ -94,11 +95,6 @@ class civAssignHandler():
         self.nameofHost = hName
         return self.nameofHost
 
-    def civNumber(self):
-        #generates and returns a random number with range
-        randNumb = random.randint(1,self.numOfCivs)
-        civName = self.civList[f'{randNumb}']
-        return civName
 
     def log(self, message = None):
         print(f"""[{self.datePrefix}::{message}""")
@@ -123,12 +119,21 @@ class civAssignHandler():
     def expansionCheck(self):
         expansionsBoolean = input("Would you like to add expansions to the civ list? Y/N ")
         if expansionsBoolean != 'Y':
-            self.numOfCivs = 18
             return
-        forgottenCheck = input("Would you like to include the expansions for The Forgotten Y/N")
+        forgottenCheck = input("Would you like to include the expansions for The Forgotten Y/N ")
         if forgottenCheck == 'Y':
-            self.numOfCivs = 23
+            y = range(19,24)
+            for i in y:
+                self.expansionList.append(i)
+        print(self.expansionList)
+        print(f"This is the max value of sampleList: {max(self.expansionList)}")
         # africanKingdomsCheck = input("Would you like to include the expansions for African Kingdoms? Y/N")
         # rajasCheck = input("Would you like to include the expansions for Rise of the Rajas? Y/N")
         # forgottenCheck = input("Would you like to include the expansions for Lords of the West? Y/N")
         # forgottenCheck = input("Would you like to include the expansions for Dawn of the Dukes? Y/N")
+
+    def civNumber(self):
+        # generates and returns a random number with range
+        randNumb = random.randint(1, max(self.expansionList))
+        civName = self.civList[f'{randNumb}']
+        return civName
