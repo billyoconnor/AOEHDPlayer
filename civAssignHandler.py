@@ -17,9 +17,10 @@ class civAssignHandler():
         for i in x:
             thisdict[f'{i}'] = [f'{self.civNumber()}']
         thisdict['1'].append(f"{self.nameofHost}")
-        y = range(0, (self.numOfPlayers-1))
-        for i in y:
-            thisdict[f'{i+2}'].append(self.otherPlayerNames[i])
+        if self.otherPlayerNames:
+            y = range(0, (self.numOfPlayers-1))
+            for i in y:
+                thisdict[f'{i+2}'].append(self.otherPlayerNames[i])
         print("ListCreate Complete")
         print(thisdict)
 
@@ -76,7 +77,8 @@ class civAssignHandler():
         
     @property
     def datePrefix(self):
-        currentTime = datetime.now(timezone.utc)
+        currentTime = datetime.now()
+        currentTime = currentTime.strftime('%Y-%m-%d %H:%M:%S')
         return currentTime
 
     def execute(self):
@@ -86,7 +88,7 @@ class civAssignHandler():
         self.expansionCheck()
         print(self.noOfPlayers())
         self.playernames()
-        print(self.listCreate())
+        self.listCreate()
         self.log("Execute Complete")
 
     def hostName(self):
@@ -122,18 +124,30 @@ class civAssignHandler():
             return
         forgottenCheck = input("Would you like to include the expansions for The Forgotten Y/N ")
         if forgottenCheck == 'Y':
-            y = range(19,24)
-            for i in y:
-                self.expansionList.append(i)
+            self.expansionList.extend(range(19,24))
+        africanKingdomsCheck = input("Would you like to include the expansions for African Kingdoms? Y/N ")
+        if africanKingdomsCheck == 'Y':
+            self.expansionList.extend(range(24,28))
+        rajasCheck = input("Would you like to include the expansions for Rise of the Rajas? Y/N ")
+        if rajasCheck == 'Y':
+            self.expansionList.extend(range(28,32))
+        defintiveCheck = input("Would you like to include the bonus civs from the base DE? Y/N ")
+        if defintiveCheck == 'Y':
+            self.expansionList.extend(range(32,36))
+        lordsCheck = input("Would you like to include the expansions for Lords of the West? Y/N ")
+        if lordsCheck == 'Y':
+            self.expansionList.extend(range(36,38))
+        dukesCheck = input("Would you like to include the expansions for Dawn of the Dukes? Y/N ")
+        if dukesCheck == 'Y':
+            self.expansionList.extend(range(38,40))
         print(self.expansionList)
         print(f"This is the max value of sampleList: {max(self.expansionList)}")
-        # africanKingdomsCheck = input("Would you like to include the expansions for African Kingdoms? Y/N")
-        # rajasCheck = input("Would you like to include the expansions for Rise of the Rajas? Y/N")
-        # forgottenCheck = input("Would you like to include the expansions for Lords of the West? Y/N")
-        # forgottenCheck = input("Would you like to include the expansions for Dawn of the Dukes? Y/N")
 
     def civNumber(self):
         # generates and returns a random number with range
-        randNumb = random.randint(1, max(self.expansionList))
+        randNumb = 50
+        #setting randNumb to a value outside the range to begin with
+        while randNumb not in self.expansionList:
+            randNumb = random.randint(1, max(self.expansionList))
         civName = self.civList[f'{randNumb}']
         return civName
