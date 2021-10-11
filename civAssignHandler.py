@@ -81,7 +81,7 @@ class civAssignHandler():
         currentTime = currentTime.strftime('%Y-%m-%d %H:%M:%S')
         return currentTime
 
-    def execute(self):
+    def cmdexecute(self):
         self.log("Starting Execute ")
         print(self.datePrefix)
         print(self.hostName())
@@ -91,9 +91,23 @@ class civAssignHandler():
         self.listCreate()
         self.log("Execute Complete")
 
-    def hostName(self):
+    def jsonexecute(self,  jdict):
+        self.log("Starting JSON Execute ")
+        print(self.datePrefix)
+        print(jdict['Host name'])
+        self.hostName(jdict['Host name'])
+        self.expansionCheck(jdict['expansions'])
+        print(self.noOfPlayers(jdict['Number of players']))
+        self.playernames(jdict["PlayerNames"])
+        self.listCreate()
+        self.log("Execute Complete")
+
+    def hostName(self, name=None):
         #Asks name of the person running the request
-        hName = input("Enter Host Name ")
+        if name is None:
+            hName = input("Enter Host Name ")
+        else:
+            hName = name
         self.nameofHost = hName
         return self.nameofHost
 
@@ -101,43 +115,64 @@ class civAssignHandler():
     def log(self, message = None):
         print(f"""[{self.datePrefix}::{message}""")
 
-    def noOfPlayers(self):
-        nOP = input("Enter Number of players: ")
+    def noOfPlayers(self, dictno=None):
+        if dictno is None:
+            nOP = input("Enter Number of players: ")
+        else:
+            nOP = dictno
         nOP = int(nOP)
         self.numOfPlayers = nOP
         return nOP
 
-    def playernames(self):
-        playerNameCheck = input("Would you like to provide player names? Y/N ")
+    def playernames(self, pdict=None):
+        if pdict is None:
+            playerNameCheck = input("Would you like to provide player names? Y/N ")
+        else:
+            playerNameCheck = pdict["ProvidePlayerNames"]
         if playerNameCheck == "Y":
             x = range(2, (self.numOfPlayers + 1))
             for i in x:
-                playerName = input(f"Enter name of player {i}: ")
+                if pdict is None:
+                    playerName = input(f"Enter name of player {i}: ")
+                else:
+                    playerName = pdict[f"Player{i}"]
                 self.otherPlayerNames.append(playerName)
             return
         else:
             return
 
-    def expansionCheck(self):
-        expansionsBoolean = input("Would you like to add expansions to the civ list? Y/N ")
-        if expansionsBoolean != 'Y':
-            return
-        forgottenCheck = input("Would you like to include the expansions for The Forgotten Y/N ")
+    def expansionCheck(self, expansions=None):
+        if expansions is None:
+            expansionsBoolean = input("Would you like to add expansions to the civ list? Y/N ")
+            if expansionsBoolean != 'Y':
+                return
+            forgottenCheck = input("Would you like to include the expansions for The Forgotten Y/N ")
+            africanKingdomsCheck = input("Would you like to include the expansions for African Kingdoms? Y/N ")
+            rajasCheck = input("Would you like to include the expansions for Rise of the Rajas? Y/N ")
+            defintiveCheck = input("Would you like to include the bonus civs from the base DE? Y/N ")
+            lordsCheck = input("Would you like to include the expansions for Lords of the West? Y/N ")
+            dukesCheck = input("Would you like to include the expansions for Dawn of the Dukes? Y/N ")
+        else:
+            print(expansions)
+            expansionsBoolean = expansions["Expansioncheck"]
+            if expansionsBoolean != 'Y':
+                return
+            forgottenCheck = expansions["The Forgotten"]
+            africanKingdomsCheck = expansions["African Kingdoms"]
+            rajasCheck = expansions["Rise of the Rajas"]
+            defintiveCheck = expansions["DE Civs"]
+            lordsCheck = expansions["Lords of the West"]
+            dukesCheck = expansions["Dawn of the Dukes"]
         if forgottenCheck == 'Y':
             self.expansionList.extend(range(19,24))
-        africanKingdomsCheck = input("Would you like to include the expansions for African Kingdoms? Y/N ")
         if africanKingdomsCheck == 'Y':
             self.expansionList.extend(range(24,28))
-        rajasCheck = input("Would you like to include the expansions for Rise of the Rajas? Y/N ")
         if rajasCheck == 'Y':
             self.expansionList.extend(range(28,32))
-        defintiveCheck = input("Would you like to include the bonus civs from the base DE? Y/N ")
         if defintiveCheck == 'Y':
             self.expansionList.extend(range(32,36))
-        lordsCheck = input("Would you like to include the expansions for Lords of the West? Y/N ")
         if lordsCheck == 'Y':
             self.expansionList.extend(range(36,38))
-        dukesCheck = input("Would you like to include the expansions for Dawn of the Dukes? Y/N ")
         if dukesCheck == 'Y':
             self.expansionList.extend(range(38,40))
         print(self.expansionList)
